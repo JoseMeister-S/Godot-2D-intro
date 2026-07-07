@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://1gdtmb4hxfva"]
+
+[ext_resource type="Texture2D" uid="uid://be4q7pnui57lv" path="res://art/playerGrey_up1.png" id="1_hqtel"]
+[ext_resource type="Texture2D" uid="uid://cb7x3nbff4ce" path="res://art/playerGrey_up2.png" id="2_sweqy"]
+[ext_resource type="Texture2D" uid="uid://bxh73ema3ujhc" path="res://art/playerGrey_walk1.png" id="3_2hs0m"]
+[ext_resource type="Texture2D" uid="uid://bbkanf3slb7gy" path="res://art/playerGrey_walk2.png" id="4_1jxqw"]
+
+[sub_resource type="GDScript" id="GDScript_hqtel"]
+script/source = "extends Area2D
+
+@export var speed = 400 # How fast the player will move (pixels/sec).
+var screen_size
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	screen_size = get_viewport_rect().size
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	var velocity = Vector2.ZERO
+	if Input.is_action_just_pressed(\"move_right\"):
+		velocity.x +=1
+	if Input.is_action_just_pressed(\"move_left\"):
+		velocity.x -=1
+	if Input.is_action_just_pressed(\"move_up\"):
+		velocity.y +=1
+	if Input.is_action_just_pressed(\"move_down\"):
+		velocity.y +=1
+	
+	if velocity.length() > 0:
+		velocity = velocity.normalized() * speed
+		$AnimatedSprite2D.play()
+	else:
+		$AnimatedSprite2D.stop()
+"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qe2ad"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hqtel")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_sweqy")
+}],
+"loop": 1,
+"name": &"up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_2hs0m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1jxqw")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_axtky"]
+radius = 54.0
+height = 136.0
+
+[node name="Player" type="Area2D" unique_id=1973967221]
+script = SubResource("GDScript_hqtel")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=403783559]
+sprite_frames = SubResource("SpriteFrames_qe2ad")
+animation = &"up"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1204299580]
+shape = SubResource("CapsuleShape2D_axtky")
