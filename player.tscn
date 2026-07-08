@@ -20,14 +20,14 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var velocity = Vector2.ZERO
-	if Input.is_action_just_pressed(\"move_right\"):
+	if Input.is_action_pressed(\"move_right\"):
 		velocity.x +=1
-	if Input.is_action_just_pressed(\"move_left\"):
+	if Input.is_action_pressed(\"move_left\"):
 		velocity.x -=1
-	if Input.is_action_just_pressed(\"move_up\"):
+	if Input.is_action_pressed(\"move_down\"):
 		velocity.y +=1
-	if Input.is_action_just_pressed(\"move_down\"):
-		velocity.y +=1
+	if Input.is_action_pressed(\"move_up\"):
+		velocity.y -=1
 	
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
@@ -90,6 +90,7 @@ radius = 54.0
 height = 136.0
 
 [node name="Player" type="Area2D" unique_id=1973967221]
+position = Vector2(240, 450)
 script = SubResource("GDScript_hqtel")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=403783559]
